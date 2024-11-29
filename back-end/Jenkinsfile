@@ -9,6 +9,41 @@ pipeline {
             }
         }
         
-   		// stage...
-   	}
+        stage('Create Build Directory') {
+            steps {
+                script {
+                    // 압축된 파일을 저장할 디렉토리 생성
+                    sh 'mkdir -p /var/jenkins_home/build'
+                }
+            }
+        }
+
+        stage('Create ZIP') {
+            steps {
+                script {
+                    // jenkins_test 디렉토리를 압축하여 build 디렉토리로 이동
+                    sh '''
+                        zip -r /var/jenkins_home/build/project.zip /var/jenkins_home/workspace/jenkins_test
+                    '''
+                }
+            }
+        }
+
+        stage('Verify ZIP') {
+            steps {
+                script {
+                    // ZIP 파일이 제대로 생성되었는지 확인
+                    sh 'ls -lh /var/jenkins_home/build/project.zip'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            // 빌드 작업 후 작업 디렉토리 정리
+            cleanWs()
+        }
+    }
 }
+

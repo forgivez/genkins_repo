@@ -23,7 +23,7 @@ pipeline {
                 script {
                     // jenkins_test 디렉토리를 압축하여 build 디렉토리로 이동
                     sh '''
-                        zip -r /var/jenkins_home/build/project.zip /var/jenkins_home/workspace/jenkins_test
+                        zip /var/jenkins_home/build/project.zip /var/jenkins_home/workspace/jenkins_test
                     '''
                 }
             }
